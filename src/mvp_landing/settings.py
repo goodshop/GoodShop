@@ -7,7 +7,6 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    #('Gibran Gonzalez', 'haibrayn@hotmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -111,6 +110,7 @@ WSGI_APPLICATION = 'mvp_landing.wsgi.application'
 
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(BASE_DIR), "static", "templates"),
+    os.path.join(os.path.dirname(BASE_DIR), "templates"),
 )
 
 if DEBUG:
@@ -132,9 +132,20 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'south',
+    'south',        # pip install south
     'signups',
+    'registration', # pip install django-registration
 )
+
+from django.core.urlresolvers import reverse_lazy
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('login')
+LOGOUT_URL = reverse_lazy('logout')
+
+# From registration: Days the users have to activate their accounts
+# See https://django-registration.readthedocs.org/en/latest/quickstart.html
+# for more details.
+ACCOUNT_ACTIVATION_DAYS = 7
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 

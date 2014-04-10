@@ -13,8 +13,11 @@ def home(request):
                               context_instance=RequestContext(request)
                               )
 
-def thankyou(request):
+def thankyou(request, *args, **kwargs):
     form = SignUpForm(request.POST or None)
+
+    if 'usr' in kwargs:
+        usr = kwargs['usr']
 
     if form.is_valid():
         save_it = form.save(commit=False)
