@@ -1,5 +1,10 @@
 {% if user.is_authenticated %}
-    {% include 'home.html' %}
+    {% if request.vendor %}
+        {% include 'vendor/home.html' %}
+    {% else %}
+        {% include 'customer/home.html' %}
+    {% endif %}
+
 {% else %}
     {% include 'inicio/login.html' %}
 {% endif %}

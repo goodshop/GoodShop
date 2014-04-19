@@ -9,6 +9,7 @@ class SignUpForm(forms.ModelForm):
 class CustomerForm(UserCreationForm):
     required_css_class = 'form-group'
     address = forms.CharField()
+    phone = forms.IntegerField()
     UserCreationForm.Meta.fields = ('username', 'first_name', 'last_name', 'email',)
 
     def __init__(self, *args, **kwargs):
@@ -22,8 +23,10 @@ class VendorForm(UserCreationForm):
     required_css_class = 'form-group'
     address = forms.CharField()
     payment = forms.CharField(widget=forms.Textarea)
+    phone = forms.IntegerField()
+
     UserCreationForm.Meta.fields = ('username', 'first_name', 'last_name', 'email',)
-    
+
     def __init__(self, *args, **kwargs):
         super(VendorForm, self).__init__(*args, **kwargs)
         for key in self.fields.keys():
