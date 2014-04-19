@@ -1,0 +1,39 @@
+{% extends 'login_base.html' %}
+
+{% block title %}GoodShop Login{% endblock%}
+
+{% block content %}
+    <form class="text-left" role="form" method="POST"> {% csrf_token %}
+
+        <div class="form-group">
+          <label  for="login_username">Username</label>
+          <input name="username"
+                 type="text"
+                 class="form-control"
+                 id="login_username"
+                 placeholder="Enter username"
+                 >
+        </div>
+
+        <div class="form-group">
+          <label class="text-left" for="exampleInputPassword1">Password</label>
+           <input id="login_password"
+                  class="form-control"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  >
+        </div>
+
+        <button type="submit" class="btn btn-default">Log In</button>
+        <hr>
+        <div class='row'>
+            <div class='col-md-6' style='text-align: center'>
+                <a href="{% url 'customer_registration' %}" class="btn btn-primary btn-lg fill-parent" role="button">Register As Customer</a>
+            </div>
+            <div class='col-md-6' style='text-align: center'>
+                <a href="{% url 'vendor_registration' %}" class="btn btn-success btn-lg fill-parent" role="button">Register As Vendor</a>
+            </div>
+        </div>
+    </form>
+{% endblock %}

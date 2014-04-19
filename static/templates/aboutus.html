@@ -4,6 +4,13 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
+        {% if user.is_authenticated %}
+          <h1>Welcome: {{user.username}}
+          {% if request.vendor %} (vendor {{user.last_name}})
+          {% else %}  (customer {{user.last_name}})
+          {% endif %}
+          </h1>
+        {% endif %}
         <h1>This is Us</h1>
         <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
         <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
@@ -12,6 +19,7 @@
 
 
 {% endblock %}
+
 {% block content %}
     <div class='col-sm-12' style='text-align: center'>
         <h1>Read Moar!</h1>

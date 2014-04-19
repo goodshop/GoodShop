@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+{% if user.is_authenticated %}
+        <h1> Welcome:{{user}}</h1>
+{% endif %}
     <div class='col-sm-12' style='text-align: center'>
 
             <h1>Just one more step. Please complete the following:</h1>

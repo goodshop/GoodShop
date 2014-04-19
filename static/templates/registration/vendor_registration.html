@@ -1,0 +1,16 @@
+{% extends 'login_base.html' %}
+
+
+
+{% block title %} Vendor Registration {% endblock %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <meta HTTP-EQUIV="REFRESH" content="0; url={% url 'login' %}">
+    {% else %}
+        <form method="POST" class="text-left" role="form"> {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" class="btn btn-lg btn-default" value="Register">
+        </form>
+    {% endif %}
+{% endblock %}

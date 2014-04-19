@@ -35,7 +35,7 @@ class ClientProfile(models.Model):
                             verbose_name="Address"
                             )
     def get_name(self):
-        return self.user.fname + self.user.lname
+        return self.user.first_name + self.user.last_name
 
     def __unicode__(self):
         return smart_unicode("%s, %s" % (self.get_name(), self.user.email))
@@ -55,7 +55,7 @@ class VendorProfile(models.Model):
                             )
 
     def get_name(self):
-        return self.user.fname + self.user.lname
+        return self.user.first_name + self.user.last_name
 
     def __unicode__(self):
         return smart_unicode("%s, %s" % (self.get_name(), self.user.email))

@@ -1,0 +1,5 @@
+Hola tu, si tu
+tienes {{expiration_days}} días para activar esta madre.
+
+puedes entrar a:
+{{site}}/accounts/{{activation_key}}
