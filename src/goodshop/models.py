@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 
 from django.utils.encoding import smart_unicode
 
+HOST_NAME = 'http://goodshop.dyndns-ip.com:8000'
+#HOST_NAME = 'http://localhost:8000'
+
 class CustomerProfile(models.Model):
     ''''''
     user = models.OneToOneField(User)
@@ -109,7 +112,7 @@ class ProductImage(models.Model):
         return smart_unicode(self.product.name)
 
     def get_img_url(self):
-        return 'http://localhost:8000/media/%s' % self.image
+        return '%s/media/%s' % (HOST_NAME, self.image)
 
 
 class ProductInOrder(models.Model):
