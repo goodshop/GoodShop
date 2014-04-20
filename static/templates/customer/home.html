@@ -6,24 +6,24 @@
 
 {% block content %}
 
-        <div class="col-lg-4">
-          <div class="panel panel-info">
-            <div class="panel-heading">
-              <h3 class="panel-title">Categories</h3>
-            </div>
-            <div class="panel-body">
-              <div class="list-group">
-                {% for category in categories %}
-                  <a href="{% url 'customer_home' %}cat/{{category.name}}/"
-                    class="list-group-item {% if actual_category == category.name %}active{% endif %}">
-                    {{category.name}}
-                  </a>
-                {% endfor %}
-              </div>
-            </div>
+    <div class="col-md-4">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Categories</h3>
+        </div>
+        <div class="panel-body">
+          <div class="list-group">
+            {% for category in categories %}
+              <a href="{% url 'customer_home' %}cat/{{category.name}}/"
+                class="list-group-item {% if actual_category == category.name %}active{% endif %}">
+                {{category.name}}
+              </a>
+            {% endfor %}
           </div>
         </div>
-    <div class="col-sm-8">
+      </div>
+    </div>
+    <div class="col-md-8">
           {% if products %}
           <div class="panel panel-success">
             <div class="panel-heading">
@@ -32,10 +32,27 @@
             <div class="panel-body">
               <div class="list-group">
                {% for product in products %}
-                 <a href="{% url 'customer_home' %}{{product.name}}/"
-                   class="list-group-item">
-                   {{product.name}}
-                 </a>
+                 <div class="list-group-item row">
+                  <div class="col-sm-3 thumbnail">
+                    {% if product.get_first_image %}
+                    <img src="{{product.get_first_image}}" class="product-img" alt="{{product.name}}">
+                    {% else %}
+                    <img data-src="holder.js/100%x180" class="product-img" alt="{{product.name}}">
+                    {% endif %}
+                  </div>
+                  <div class="col-sm-5">
+                    <h4>{{product.name}}</h3>
+                  </div>
+                  <div class="col-sm-2">
+                    <h4>$ {{product.price}}</h3>
+                  </div>
+                  <div class="col-sm-2">
+                    <a href="#" style="margin-top: 3px;" class="btn btn-md btn-danger">
+                      Add <span style="color: white;"
+                      class="glyphicon glyphicon-shopping-cart"></span>
+                    </a>
+                  </div>
+                 </div>
                {% endfor %}
               </div>
             </div>

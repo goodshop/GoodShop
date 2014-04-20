@@ -62,6 +62,7 @@ class Product(models.Model):
     '''Product that is related to a category and a vendor'''
     category = models.ForeignKey(Category)
     vendor = models.ForeignKey(User)
+    price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name="Price")
     name = models.CharField(max_length=120,
                             null=False,
                             blank=False,
@@ -69,6 +70,17 @@ class Product(models.Model):
                             )
     stock = models.BooleanField(default=True,
                                 verbose_name="Have this product in stock")
+
+    def get_images(self):
+        urls = [image.get_img_url() for image in ProductImage.objects.filter(product=self)]
+        return urls
+
+    def get_first_image(self):
+        urls = ProductImage.objects.filter(product=self)
+        if urls:
+            return urls[0].get_img_url()
+        return ''
+
     def __unicode__(self):
         return smart_unicode(self.name)
 

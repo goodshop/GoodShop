@@ -8,8 +8,8 @@ class ImageInline(admin.StackedInline):
     extra = 3
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'image')
-    list_editable = ('name',)
+    list_display = ('id', 'name', 'price', 'image',)
+    list_editable = ('price', 'name',)
 
     def image(self, product):
         url = [image.get_img_url() for image in ProductImage.objects.filter(product=product)]
