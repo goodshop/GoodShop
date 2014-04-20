@@ -1,1 +1,0 @@
-Site: {{site}}, key: {{activation_key}}, days: {{expiration_days}}
