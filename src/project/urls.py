@@ -8,14 +8,9 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    #(r'^', include('signups.urls')),
     (r'^', include('goodshop.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
-
-    # including the register app urls
-    url(r'^accounts/', include('registration.backends.simple.urls')),
-    url(r'^users/(?P<usr>[-\w]+)/$', 'signups.views.thankyou', name='thankyou'),
 )
 
 if settings.DEBUG:

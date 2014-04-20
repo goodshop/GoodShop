@@ -19,7 +19,7 @@
                 <li><a href="#">Something else here</a></li>
                 <li class="divider"></li>
                 {% if not usr %}
-                <li><a href="{% url 'registration_register' %}">Log In</a></li>
+                <li><a href="{% url 'login' %}">Log In</a></li>
                 {% else %}
                 <li><a href="/users/{{usr}}">Hi, {{usr}}</a></li>
                 {% endif %}
