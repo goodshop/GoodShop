@@ -1,0 +1,1 @@
+from goodshop.models import VendorProfile

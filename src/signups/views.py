@@ -24,8 +24,8 @@ def search_products(context, name):
     elif context == 'search':
         products = Product.objects.filter(id=0)
         for search_name in name.split('-'):
-            categories = Category.objects.filter(name__contains=search_name)
-            q = Product.objects.filter(name__contains=search_name)| Product.objects.filter(category=categories)
+            categories = Category.objects.filter(name__icontains=search_name)
+            q = Product.objects.filter(name__icontains=search_name)| Product.objects.filter(category=categories)
             products = products | q
         return products
     return []

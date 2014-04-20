@@ -1,88 +1,45 @@
 {% extends 'base.html' %}
 
-{% block jumbotron %}
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <div class="col-sm-6">
-          <h1>Zelda, world! for customer {{user.first_name}} {{user.last_name}}</h1>
-          <p>This is a temple for a simple gamer or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-          <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
-        </div>
-        <div class="col-sm-6">
-           <iframe width="640" height="376" src="//www.youtube.com/embed/VLAekpsclQY?autoplay=1" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-{% endblock %}
+{% block jumbotron %}{% endblock %}
 
-{% block extra %}
-    {% if tabla and cosito %}
-      {% for coso in cosito %}
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="list-group">
-            {% for category in categories %}
-              <a href="{% url 'customer_home' %}cat/{{category.name}}/"
-                class="list-group-item {% if actual_category == category.name %}active{% endif %}">
-                {{category.name}}
-              </a>
-            {% endfor %}
-
-          </div>
-
-          <div class="alert alert-success alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            <strong>Success!</strong> {{ coso }}
-          </div>
-        </div>
-
-        <div class="col-lg-4">
-
-        </div>
-      </div>
-      {% endfor %}
-    {% endif %}
-{% endblock %}
+{% block extra %}{% endblock %}
 
 {% block content %}
 
         <div class="col-lg-4">
-          <div class="list-group">
-            {% for category in categories %}
-              <a href="{% url 'customer_home' %}cat/{{category.name}}/"
-                class="list-group-item {% if actual_category == category.name %}active{% endif %}">
-                {{category.name}}
-              </a>
-            {% endfor %}
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h3 class="panel-title">Categories</h3>
+            </div>
+            <div class="panel-body">
+              <div class="list-group">
+                {% for category in categories %}
+                  <a href="{% url 'customer_home' %}cat/{{category.name}}/"
+                    class="list-group-item {% if actual_category == category.name %}active{% endif %}">
+                    {{category.name}}
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
           </div>
         </div>
     <div class="col-sm-8">
-          <div class="list-group">
-           {% for product in products %}
-             <a href="{% url 'customer_home' %}{{product.name}}/"
-               class="list-group-item">
-               {{product.name}}
-             </a>
-           {% endfor %}
-
+          {% if products %}
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <h3 class="panel-title">Products</h3>
+            </div>
+            <div class="panel-body">
+              <div class="list-group">
+               {% for product in products %}
+                 <a href="{% url 'customer_home' %}{{product.name}}/"
+                   class="list-group-item">
+                   {{product.name}}
+                 </a>
+               {% endfor %}
+              </div>
+            </div>
           </div>
+          {% endif %}
     </div>
-
-<!--    <div class='col-sm-4'>
-        <h1>Pre-Order</h1>
-        <p>If you a fool, then this course is fo yo!.</p>
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="6FQL5J8WMSS32">
-<input type="hidden" name="on0" value="Courses">
-            <select class="form-control" name="os0">
-                    <option value="Chafa">Chafa $199.00 MXN</option>
-                    <option value="Maso">Maso $299.00 MXN</option>
-                    <option value="Chingon">Chingon $666.99 MXN</option>
-            </select>
-            <br>
-            <input type='submit' class='btn btn-success btn-lg btn-block'>
-        </form>
-    </div>-->
 {% endblock %}
