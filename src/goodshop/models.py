@@ -54,6 +54,10 @@ class Category(models.Model):
                             blank=False,
                             verbose_name="Category"
                             )
+
+    def get_product_count(self):
+        return len(Product.objects.filter(category=self))
+
     def __unicode__(self):
         return smart_unicode(self.name)
 

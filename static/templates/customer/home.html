@@ -16,7 +16,7 @@
             {% for category in categories %}
               <a href="{% url 'customer_home' %}cat/{{category.name}}/"
                 class="list-group-item {% if actual_category == category.name %}active{% endif %}">
-                {{category.name}}
+                {{category.name}} <span class="badge">{{category.get_product_count}}</span>
               </a>
             {% endfor %}
           </div>
