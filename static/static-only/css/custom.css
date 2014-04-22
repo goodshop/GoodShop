@@ -37,4 +37,5 @@ body {
 .logo {
     width: 100%;
     max-width: 636px;
+    border-radius: 67px;
 }
