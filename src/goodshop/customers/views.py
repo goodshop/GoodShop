@@ -74,6 +74,9 @@ class Cart(object):
                 return self.items.index(item)
         return None
 
+    def get_products(self):
+        return ( item.product for item in self.items )
+
     def __iter__(self):
         return self.forward()
 
@@ -165,6 +168,21 @@ def cart_manager(request, *args, **kwargs):
     if request.GET and 'sku' in request.GET:
         sku = request.GET['sku']
 
+        if action == 'add-to-cart':
+            print "#"*40
+            print request
+            cart_add_product(cart, sku)
+            update_shopping_cart(request, cart)
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+        if action == 'remove-from-cart':
+            cart_remove_product(cart, sku)
+            update_shopping_cart(request, cart)
+            return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+        if action == 'remove':
+            cart_remove_product(cart, sku)
+
         if 'qty' in request.GET:
             # Verify numbers only or GTFO
             str_qty = request.GET['qty']
@@ -174,9 +192,6 @@ def cart_manager(request, *args, **kwargs):
                 cart_add_product(cart, sku, qty=qty)
             elif action == 'update':
                 cart_update_product(cart, sku, qty)
-
-        if action == 'remove':
-            cart_remove_product(cart, sku)
 
     if action == 'clear':
         cart.empty()
