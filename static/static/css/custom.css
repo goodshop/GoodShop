@@ -33,3 +33,8 @@ body {
 .cart-icon {
     color: white !important;
 }
+
+.logo {
+    width: 100%;
+    max-width: 636px;
+}
