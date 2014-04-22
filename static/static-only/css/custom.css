@@ -24,3 +24,12 @@ body {
     color: rgb(197, 19, 19);
     font-weight: bold;
 }
+
+.cart-thumbnail {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+}
+
+.cart-icon {
+    color: white !important;
+}

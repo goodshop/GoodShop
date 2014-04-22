@@ -1,13 +1,27 @@
-$('.product-qty').change(function(){
-    id = $(this).attr('data-id')
-    qty = $(this).val()
-    if (qty == '') qty = 1;
+/* Search Products */
 
-    window.location = window.location.origin + window.location.pathname+"update?sku="+id+"&qty="+qty
+$('#search').submit(function (){
+    var str = $("#search-box").val().replace(/[\s]+/g, "-");
+    var url = $(this).attr('action') + str;
+    window.location = window.location.origin + url;
+    return false;
 });
 
-shift_pressed = false;
 
+/* Cart Functions */
+
+$('.product-qty').change(function(){
+    id = $(this).attr('data-id');
+    qty = $(this).val();
+    if (qty == '') qty = 1;
+
+    window.location = window.location.origin + window.location.pathname+"update?sku="+id+"&qty="+qty;
+});
+
+
+
+// Input Integrity Constraints
+shift_pressed = false;
 // Numeric only control handler
 jQuery.fn.ForceNumericOnly =
 function()
