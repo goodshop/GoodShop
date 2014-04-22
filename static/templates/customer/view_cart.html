@@ -39,7 +39,8 @@
                         <!--  Quantity -->
                         <td class="text-center">
                             <a href="{% url 'shopping_cart' %}add?sku={{item.product.id}}&qty=-1"
-                            class="btn btn-sm btn-qty">
+                            class="btn btn-sm btn-qty"
+                            {% if item.quantity == 1 %}disabled="disabled"{% endif %} >
                                 <span class="glyphicon glyphicon-minus btn-qty-icon"></span>
                             </a>
                             <input type="text"

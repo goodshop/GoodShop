@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 
 from django.utils.encoding import smart_unicode
 
-HOST_NAME = 'http://goodshop.dyndns-ip.com:8000'
-#HOST_NAME = 'http://localhost:8000'
+#HOST_NAME = 'http://goodshop.dyndns-ip.com:8000'
+HOST_NAME = 'http://localhost:8000'
 
 class CustomerProfile(models.Model):
     ''''''

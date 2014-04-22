@@ -10,6 +10,7 @@ from goodshop.models import Category, Phone, Product
 
 
 ## Helper Functions
+import re
 import pickle
 from goodshop.utils import add_user_context, search_products
 
@@ -165,7 +166,10 @@ def cart_manager(request, *args, **kwargs):
         sku = request.GET['sku']
 
         if 'qty' in request.GET:
-            qty = int(request.GET['qty'])
+            # Verify numbers only or GTFO
+            str_qty = request.GET['qty']
+            qty = int(str_qty) if re.match("^[-]*[\d]+$", str_qty) else 0
+
             if action == 'add':
                 cart_add_product(cart, sku, qty=qty)
             elif action == 'update':
