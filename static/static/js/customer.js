@@ -1,6 +1,8 @@
 $('.product-qty').change(function(){
     id = $(this).attr('data-id')
     qty = $(this).val()
+    if (qty == '') qty = 1;
+
     window.location = window.location.origin + window.location.pathname+"update?sku="+id+"&qty="+qty
 });
 
