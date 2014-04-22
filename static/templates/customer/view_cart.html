@@ -95,4 +95,23 @@
     </div> <!--Table Responsive-->
   </div> <!--Panel Body-->
 </div> <!--Panel div-->
+
+<!--Check Out Panel-->
+{% if not cart.is_empty %}
+<div class="well well-lg well-default">
+  <div class="row">
+      <div class="col-sm-6">
+      </div>
+      <div class="col-sm-3">
+          <h4 class="">Order Total: <span class="total-price">$ {{cart.total}}</span></h4>
+      </div>
+      <div class="col-sm-3">
+          <a href="#" class="btn btn-lg btn-success">
+              <span class="glyphicon glyphicon-usd" style="font-size: smaller;"></span> Check Out
+          </a>
+      </div>
+  </div>
+</div>
+{% endif %}   <!--Check Out Panel-->
+
 {% endblock %}

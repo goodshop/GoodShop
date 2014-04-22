@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse_lazy
 from .forms import VendorForm
 from .models import VendorProfile
 from goodshop.models import Phone
-
+from goodshop.utils import add_user_context
 
 def vendor_home(request):
     add_user_context(request)
