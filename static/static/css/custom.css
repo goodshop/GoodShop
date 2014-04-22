@@ -6,3 +6,21 @@
     width: 100px;
     height: 140px !important;
 }
+
+body {
+    overflow-y: visible !important;
+}
+
+.btn-qty {
+    border: 1px solid rgb(189, 204, 190);
+    padding-top: 6px;
+}
+
+.btn-qty-icon {
+    font-size: .9em;
+}
+
+.total-price {
+    color: rgb(197, 19, 19);
+    font-weight: bold;
+}
