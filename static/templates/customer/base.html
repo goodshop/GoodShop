@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="../../assets/ico/favicon.ico">
+
+    <title>{% block title %}GoodShop{% endblock %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/jumbotron.css" rel="stylesheet">
+    <script id="twitter-wjs" async="" src="https://platform.twitter.com/widgets.js"></script>
+    <!-- Just for debugging purposes. Don't actually copy this line! -->
+    <!--[if lt IE 9]><script src="/static/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+{% include 'customer/navbar.html' %}
+
+{% block jumbotron %}
+
+{% endblock %}
+
+    <div class="container">
+{% if messages %}
+      <div class='row'>
+          {% for message in messages %}
+            {% if message.tags == "success" %}
+
+              <div class='col-sm-12'>
+                  <div class="alert alert-success alert-dismissable text-center">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <strong><span class="glyphicon glyphicon-thumbs-up"></span></strong>
+                     {{ message }}
+                  </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div> <!--/message row-->
+{% endif %}
+      <!-- Example row of columns -->
+      <div class="row">
+        {% block content %}{% endblock %}
+      </div>
+      {% block extra%} {% endblock %}
+      <hr>
+
+      <footer>
+        <div  class="container">
+          <div class="row">
+            <div class="col-sm-1">
+              <div class="fb-like" data-href="http://goodshop.dyndns.info" data-layout="box_count"
+                data-action="like" data-show-faces="true" data-share="true">
+              </div>
+            </div>
+            <div class="col-sm-2 col-sm-offset-2">
+              <div class="fb-comments" data-href="http://goodshop.dyndns.info" data-numposts="5" data-colorscheme="dark">
+              </div>
+            </div>
+            <div class="col-sm-2 col-sm-offset-5">
+              <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_donations">
+                <input type="hidden" name="business" value="3UYGTACS6U622">
+                <input type="hidden" name="lc" value="MX">
+                <input type="hidden" name="item_name" value="Goodshop">
+                <input type="hidden" name="currency_code" value="MXN">
+                <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
+                <input type="image" src="https://www.paypalobjects.com/en_US/MX/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+              </form>
+            </div>
+          </div> <!--row-->
+          <div class="row">
+            <div class="col-sm-12">
+                <p class= "text-center">
+                  &copy; Company 2014
+                </p>
+            </div>
+          </div>
+        </div>
+
+      </footer>
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
