@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 # Create your views here.
 from .forms import CustomerForm
 from .models import CustomerProfile
-from goodshop.models import Category, Phone, Product
+from goodshop.models import Category, Phone, Product, Order, ProductInOrder
 
 
 ## Helper Functions
@@ -109,7 +109,6 @@ def cart_remove_product(cart, sku):
     cart.remove_product(prodcut)
 
 ## Views
-
 def customer_home(request, *args, **kwargs):
     add_user_context(request)
     if not request.user.is_authenticated():
@@ -199,6 +198,35 @@ def cart_manager(request, *args, **kwargs):
     update_shopping_cart(request, cart)
     return HttpResponseRedirect(reverse_lazy('shopping_cart'))
 
+
+def cart_checkout(request, *args, **kwargs):
+    add_user_context(request)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    elif request.vendor:
+        return HttpResponseRedirect('/vendor/')
+
+    cart = get_shopping_cart(request)
+    if not cart.is_empty():
+        # Create the order
+        order = Order.objects.create(
+                    client=request.user,
+                    total_price=cart.total()
+                )
+        order.save()
+        for item in cart:
+            product_in_order = ProductInOrder.objects.create(
+                                order=order,
+                                product=item.product,
+                                unit_price=item.product.price,
+                                total_price=item.total(),
+                                quantity=item.quantity
+                            )
+            product_in_order.save()
+        cart.empty()
+        update_shopping_cart(request, cart)
+
+    return HttpResponseRedirect(reverse_lazy('customer_home'))
 
 class CustomerRegistration(FormView):
     template_name = 'registration/customer_registration.html'

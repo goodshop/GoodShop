@@ -106,7 +106,7 @@
           <h4 class="">Order Total: <span class="total-price">$ {{cart.total}}</span></h4>
       </div>
       <div class="col-sm-3">
-          <a href="#" class="btn btn-lg btn-success">
+          <a href="{% url 'cart_checkout' %}" class="btn btn-lg btn-success">
               <span class="glyphicon glyphicon-usd" style="font-size: smaller;"></span> Check Out
           </a>
       </div>
