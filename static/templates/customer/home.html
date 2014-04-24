@@ -53,7 +53,7 @@
                     <a
                        href="{% url 'shopping_cart' %}add-to-cart?sku={{product.id}}"
                        style="margin-top: 3px;"
-                       class="btn btn-md btn-success"
+                       class="btn btn-md btn-success{% if not product.stock %} disabled{% endif %}"
                        data-id="{{product.id}}">
                       Add <span
                       class="glyphicon glyphicon-shopping-cart cart-icon"></span>

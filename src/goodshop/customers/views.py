@@ -8,12 +8,13 @@ from .forms import CustomerForm
 from .models import CustomerProfile
 from goodshop.models import Category, Phone, Product, Order, ProductInOrder
 
-
 ## Helper Functions
 import re
 import pickle
 from goodshop.utils import add_user_context, search_products
-
+# Email
+from django.core.mail import send_mail
+from project.settings import EMAIL_HOST
 class Item(object):
     def __init__(self, product, quantity=1):
         self.product = product
@@ -24,6 +25,9 @@ class Item(object):
 
     def set_qty(self, qty):
         self.quantity = qty if qty >= 1 else 1
+
+    def __str__(self):
+        return "%s\tx\t%s\tsub-total: $%s" % (str(self.product), str(self.quantity), str(self.total()))
 
 class Cart(object):
     def __init__(self):
@@ -214,6 +218,7 @@ def cart_checkout(request, *args, **kwargs):
                     total_price=cart.total()
                 )
         order.save()
+        client = CustomerProfile.objects.get(user=order.client)
         for item in cart:
             product_in_order = ProductInOrder.objects.create(
                                 order=order,
@@ -223,6 +228,46 @@ def cart_checkout(request, *args, **kwargs):
                                 quantity=item.quantity
                             )
             product_in_order.save()
+            send_mail('Order: #%s from GoodShop' % (order.pk),
+                      'OrderNo: #%s\n'
+                      'Date: %s\n\n'
+                      'Article Details\n\n'
+                      '\tProduct: %s\n'
+                      '\tQty: %s\n\n'
+                      '\tTotal: $%s\n'
+                      '\n%s\n\n'
+                      'Customer: %s %s\n'
+                      '\te-mail: %s\n'
+                      '\taddress: %s\n'
+                      % (order.pk,
+                         order.purachase_date,
+                         item.product,
+                         item.quantity,
+                         item.total(),
+                         '-'*70,
+                         client.user.first_name, client.user.last_name,
+                         client.user.email,
+                         client.address
+                        ),
+                      EMAIL_HOST,
+                      [item.product.vendor.email, 'coca_lp@hotmail.com', 'haibrayn@hotmail.com'],
+                      fail_silently=False
+                      )
+        send_mail('[GoodShop] Order created successfully',
+                  'OrderNo: #%s\n'
+                  'Date: %s\n\t'
+                  '%s\n\n'
+                  'Total: $%s\n\n'
+                  'Thanks!' %
+                    (order.pk,
+                     order.purachase_date,
+                     '\n\t'.join([ str(item) for item in cart]),
+                     str(cart.total())
+                    ),
+                  EMAIL_HOST,
+                  [client.user.email, 'coca_lp@hotmail.com', 'haibrayn@hotmail.com'],
+                  fail_silently=False
+                  )
         cart.empty()
         update_shopping_cart(request, cart)
 
