@@ -132,12 +132,14 @@ def manage_cart(request, action):
         if action == 'add-to-cart':
             cart_add_product(cart, sku)
             update_shopping_cart(request, cart)
-            return request.META.get('HTTP_REFERER', reverse_lazy('customer_home'))
+            url = request.META.get('HTTP_REFERER', reverse_lazy('customer_home'))
+            return "%s#%s" % (url.split('#')[0], sku)
 
         if action == 'remove-from-cart':
             cart_remove_product(cart, sku)
             update_shopping_cart(request, cart)
-            return request.META.get('HTTP_REFERER', reverse_lazy('customer_home'))
+            url = request.META.get('HTTP_REFERER', reverse_lazy('customer_home'))
+            return "%s#%s" % (url.split('#')[0], sku)
 
         if action == 'remove':
             cart_remove_product(cart, sku)
@@ -155,4 +157,5 @@ def manage_cart(request, action):
         cart.empty()
 
     update_shopping_cart(request, cart)
-    return reverse_lazy('shopping_cart')
+    url = reverse_lazy('shopping_cart').split('#')[0]
+    return "%s#%s" % (url, sku)

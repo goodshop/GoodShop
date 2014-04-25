@@ -34,7 +34,7 @@
             <div class="panel-body">
               <div class="list-group">
                {% for product in products %}
-                 <div class="list-group-item row">
+                 <div id="{{product.pk}}" class="list-group-item row">
                   <div class="col-sm-3 thumbnail">
                     {% if product.get_first_image %}
                     <img src="{{product.get_first_image}}" class="product-img" alt="{{product.name}}">
