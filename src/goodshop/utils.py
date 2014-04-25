@@ -22,3 +22,13 @@ def search_products(context, name):
             products = products | q
         return products
     return []
+
+
+def get_categories(name_like=''):
+    '''
+    Returns all categories or a group of categories filtered
+    by a name.
+    '''
+    if name_like:
+        return Category.objects.filter(name__icontains=name_like)
+    return Category.objects.all()

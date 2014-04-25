@@ -91,6 +91,17 @@ class Product(models.Model):
     def __unicode__(self):
         return smart_unicode(self.name)
 
+class ProductImage(models.Model):
+    '''A one to many relation, between images and a product'''
+    product = models.ForeignKey(Product)
+    image = models.ImageField(upload_to='products')
+
+    def __unicode__(self):
+        return smart_unicode(self.product.name)
+
+    def get_img_url(self):
+        return '%s/media/%s' % (HOST_NAME, self.image)
+
 
 class Order(models.Model):
     '''An order is related to a client. The time stamp of the purchase
@@ -102,17 +113,47 @@ class Order(models.Model):
     purachase_date = models.DateTimeField(auto_now_add=True, blank=True)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
 
+    def get_customer_profile(self):
+        return CustomerProfile.objects.get(user=self.client)
 
-class ProductImage(models.Model):
-    '''A one to many relation, between images and a product'''
-    product = models.ForeignKey(Product)
-    image = models.ImageField(upload_to='products')
+    def get_customer_phone(self):
+        return Phone.objects.get(user=self.client)
 
-    def __unicode__(self):
-        return smart_unicode(self.product.name)
+    def get_order_products(self):
+        return ProductInOrder.objects.filter(order=self)
 
-    def get_img_url(self):
-        return '%s/media/%s' % (HOST_NAME, self.image)
+    def sales_by_vendor(self):
+        '''
+        Returns the products in the order, grouped by vendor as a dict,
+        where the key is the vendor id and the value is a list containing
+        the products related to that vendor in the order.
+            {'vendor_id': [product1_in_order, product2_in_order,...],...}
+        '''
+        sales = {}
+        for p_ord in self.get_order_products():
+            vendor = p_ord.product.vendor
+            if not vendor.pk in sales:
+                sales[vendor.pk] = [p_ord]
+            else:
+                sales[vendor.pk].append(p_ord)
+        return sales
+
+    def get_product_report(self, products):
+        PRODUCT_LIST = """
+%(p_name)s
+\tQty  :  %(p_qty)s
+\tSub-total  :  $ %(p_stotal)s"""
+        p_list = ''
+        total = 0
+        LABELS = {}
+        for p_ord in products:
+            LABELS['p_name'] = p_ord.product.name
+            LABELS['p_qty'] = p_ord.quantity
+            LABELS['p_stotal'] = p_ord.total_price
+            p_list += PRODUCT_LIST % LABELS
+            total += p_ord.total_price
+        p_list += '\n\nTotal : $ %s' % total
+        return p_list
 
 
 class ProductInOrder(models.Model):
