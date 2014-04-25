@@ -3,8 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 
 class CustomerForm(UserCreationForm):
     required_css_class = 'form-group'
-    address = forms.CharField()
-    phone = forms.IntegerField()
+    address = forms.CharField(required=True)
+    phone = forms.IntegerField(required=True)
     UserCreationForm.Meta.fields = ('username', 'first_name', 'last_name', 'email',)
 
     def __init__(self, *args, **kwargs):

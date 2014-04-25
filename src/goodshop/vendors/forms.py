@@ -3,9 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 class VendorForm(UserCreationForm):
     required_css_class = 'form-group'
-    address = forms.CharField()
+    address = forms.CharField(required=True)
     payment = forms.CharField(widget=forms.Textarea)
-    phone = forms.IntegerField()
+    phone = forms.IntegerField(required=True)
 
     UserCreationForm.Meta.fields = ('username', 'first_name', 'last_name', 'email',)
 

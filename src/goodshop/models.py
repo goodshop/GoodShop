@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 
 from django.utils.encoding import smart_unicode
 
+## Helper Modules
+from . import templates
+
 HOST_NAME = 'http://goodshop.dyndns-ip.com:8000'
 #HOST_NAME = 'http://localhost:8000'
 
@@ -104,26 +107,26 @@ class ProductImage(models.Model):
 
 
 class Order(models.Model):
-    '''An order is related to a client. The time stamp of the purchase
+    '''An order is related to a customer. The time stamp of the purchase
     is registered and the total price of the order as it was at the time
     of the purchase, since the prices of the products may change at any time
     '''
-    client = models.ForeignKey(User)
+    customer = models.ForeignKey(User)
     product = models.ManyToManyField(Product, through='ProductInOrder')
-    purachase_date = models.DateTimeField(auto_now_add=True, blank=True)
+    purchase_date = models.DateTimeField(auto_now_add=True, blank=True)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
 
     def __unicode__(self):
-        return smart_unicode(str(self.pk) +' '+ str(self.client))
+        return smart_unicode(str(self.pk) +' '+ str(self.customer))
 
     def get_date(self):
-        return '{:%Y-%m-%d %H:%M:%S}'.format(self.purachase_date)
+        return '{:%Y-%m-%d %H:%M:%S}'.format(self.purchase_date)
 
     def get_customer_profile(self):
-        return CustomerProfile.objects.get(user=self.client)
+        return CustomerProfile.objects.get(user=self.customer)
 
     def get_customer_phone(self):
-        return Phone.objects.get(user=self.client)
+        return Phone.objects.get(user=self.customer)
 
     def get_order_products(self):
         return ProductInOrder.objects.filter(order=self)
@@ -144,11 +147,16 @@ class Order(models.Model):
                 sales[vendor.pk].append(p_ord)
         return sales
 
+    def sales(self):
+        from .utils import Sale
+        sales_objs = []
+        vendor_sales = self.sales_by_vendor()
+        for vendor_id in vendor_sales:
+            sales_objs.append(Sale(self, vendor_id, vendor_sales[vendor_id]))
+        return sales_objs
+
     def get_product_report(self, products):
-        PRODUCT_LIST = """
-%(p_name)s
-\tQty  :  %(p_qty)s
-\tSub-total  :  $ %(p_stotal)s"""
+        PRODUCT_LIST = templates.PRODUCT_LIST
         p_list = ''
         total = 0
         LABELS = {}
@@ -160,7 +168,6 @@ class Order(models.Model):
             total += p_ord.total_price
         p_list += '\n\nTotal : $ %s' % total
         return p_list
-
 
 class ProductInOrder(models.Model):
     '''

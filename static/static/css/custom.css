@@ -43,3 +43,11 @@ body {
 .orders>tbody>tr>td {
     vertical-align: middle !important;
 }
+
+.errorlist {
+    color: #FF5656;
+    font-size: large;
+    font-weight: bold;
+    border: 1px solid rgb(145, 48, 199);
+    border-radius: 44px;
+}
