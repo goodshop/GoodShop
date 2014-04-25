@@ -11,4 +11,7 @@ urlpatterns = patterns('',
         'goodshop.customers.views.cart_manager',
         name='cart_manager'),
     url(r'^cart/checkout/$', 'goodshop.customers.views.cart_checkout', name='cart_checkout'),
+
+    url(r'^my-orders/$', 'goodshop.customers.views.my_orders', name='my_orders'),
+    url(r'^my-orders/(?P<order_id>[\d]+)/$', 'goodshop.customers.views.view_order', name='view_order'),
 )

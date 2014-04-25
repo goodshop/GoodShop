@@ -81,7 +81,7 @@ def email_order_notification(order):
 
     # General order info
     LABELS['order_no'] = order.pk
-    LABELS['date'] = '{:%Y-%m-%d %H:%M:%S}'.format(order.purachase_date)
+    LABELS['date'] = order.get_date()
     LABELS['order_total'] = order.total_price
 
     # Customer info
@@ -168,6 +168,44 @@ def cart_checkout(request, *args, **kwargs):
 
     return HttpResponseRedirect(redirect_url)
 
+
+def my_orders(request, *args, **kwargs):
+    add_user_context(request)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    elif request.vendor:
+        return HttpResponseRedirect('/vendor/')
+
+    orders = Order.objects.filter(client=request.user).order_by('-purachase_date', 'total_price')
+
+    return render_to_response("customer/orders.html",
+                              locals(),
+                              context_instance=RequestContext(request)
+                              )
+
+def view_order(request, *args, **kwargs):
+    add_user_context(request)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+    elif request.vendor:
+        return HttpResponseRedirect('/vendor/')
+
+    order_id = kwargs.pop('order_id','')
+
+    if order_id:
+        orders = Order.objects.filter(pk=order_id, client=request.user)
+
+        if not orders:
+            return HttpResponseRedirect(reverse_lazy('my_orders'))
+
+        order = orders[0]
+        products = order.get_order_products()
+        sales = order.sales_by_vendor()
+
+    return render_to_response("customer/view_order.html",
+                             locals(),
+                             context_instance=RequestContext(request)
+                             )
 
 # Registration Form
 class CustomerRegistration(FormView):

@@ -53,11 +53,16 @@
                     <a
                        href="{% url 'shopping_cart' %}add-to-cart?sku={{product.id}}"
                        style="margin-top: 3px;"
-                       class="btn btn-md btn-success{% if not product.stock %} disabled{% endif %}"
+                       class="btn btn-md {% if product.stock %}btn-success{% else %}btn-warning disabled{% endif %}"
                        data-id="{{product.id}}">
                       Add <span
                       class="glyphicon glyphicon-shopping-cart cart-icon"></span>
                     </a>
+                      {% if not product.stock %}
+                        <h5 class="text-center text-danger">
+                          <strong>Not in Stock</strong>
+                        </h1>
+                      {% endif %}
                     {% else %}
                     <a
                        href="{% url 'shopping_cart' %}remove-from-cart?sku={{product.id}}"

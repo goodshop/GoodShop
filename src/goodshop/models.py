@@ -113,6 +113,12 @@ class Order(models.Model):
     purachase_date = models.DateTimeField(auto_now_add=True, blank=True)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
 
+    def __unicode__(self):
+        return smart_unicode(str(self.pk) +' '+ str(self.client))
+
+    def get_date(self):
+        return '{:%Y-%m-%d %H:%M:%S}'.format(self.purachase_date)
+
     def get_customer_profile(self):
         return CustomerProfile.objects.get(user=self.client)
 

@@ -1,0 +1,68 @@
+{% extends 'customer/base.html' %}
+{% block scripts %}<script src="/static/js/customer.js"></script>{% endblock %}
+{% block jumbotron %}{% endblock %}
+
+{% block extra %}{% endblock %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+      {% if order %}
+      {% for vendor, prod_list in sales.items %}
+
+      <h3>{{prod_list.0.product.vendor}}</h3>
+      <div class="table-responsive">
+        <table class="table table-striped orders">
+            <thead>
+                <tr>
+                    <th class="text-center">Product</th>
+                    <th class="text-center">Unit Price</th>
+                    <th class="text-center">Qty</th>
+                    <th class="text-center">Sub-total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p_ord in prod_list %}
+                  <tr>
+                    <!-- Product Info -->
+                    <td>
+                        <div class="row">
+                          <div class="col-sm-4 col-sm-offset-1 cart-thumbnail thumbnail">
+                            {% if p_ord.product.get_first_image %}
+                            <img src="{{p_ord.product.get_first_image}}" class="product-img" alt="{{p_ord.product.name}}">
+                            {% else %}
+                            <img data-src="holder.js/100%x180" class="product-img" alt="{{p_ord.product.name}}">
+                            {% endif %}
+                          </div>
+                          <div class="col-sm-7">
+                            <h4>{{p_ord.product.name}}</h3>
+                          </div>
+                        </div>
+                    </td>
+
+                    <!-- Unit Price -->
+                    <td class="text-center">
+                        <h4>${{p_ord.unit_price}}</h4>
+                    </td>
+
+                    <!--  Quantity -->
+                    <td class="text-center">
+                      <h4>{{p_ord.quantity}}</h4>
+                    </td>
+
+                    <!-- Sub-Total -->
+                    <td class="text-center">
+                        <h4 class="total-price">${{p_ord.total_price}}</h4>
+                    </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div> <!--Table Responsive-->
+      {% endfor %}
+      {% else %}
+      <div class="alert alert-info"><strong>LOL!</strong> You don't have any orders yet.</div>
+      {% endif %}
+    </div>
+{% endblock %}

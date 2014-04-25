@@ -39,3 +39,7 @@ body {
     max-width: 636px;
     border-radius: 67px;
 }
+
+.orders>tbody>tr>td {
+    vertical-align: middle !important;
+}
