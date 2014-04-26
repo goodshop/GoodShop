@@ -39,3 +39,26 @@ body {
     max-width: 636px;
     border-radius: 67px;
 }
+
+.orders>tbody>tr>td {
+    vertical-align: middle !important;
+}
+
+.align-right {
+    float: right;
+}
+
+.position-helper {
+    position: absolute;
+    top: -70px;
+    width:  0;
+    height: 0;
+}
+
+.errorlist {
+    color: #FF5656;
+    font-size: large;
+    font-weight: bold;
+    border: 1px solid rgb(145, 48, 199);
+    border-radius: 44px;
+}
