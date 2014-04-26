@@ -44,6 +44,17 @@ body {
     vertical-align: middle !important;
 }
 
+.clear-cart {
+    float: right;
+}
+
+.position-helper {
+    position: absolute;
+    top: -70px;
+    width:  0;
+    height: 0;
+}
+
 .errorlist {
     color: #FF5656;
     font-size: large;
