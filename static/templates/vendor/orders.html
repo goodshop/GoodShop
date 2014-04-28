@@ -1,5 +1,5 @@
-{% extends 'customer/base.html' %}
-{% block scripts %}<script src="/static/js/customer.js"></script>{% endblock %}
+{% extends 'vendor/base.html' %}
+{% block scripts %}{% endblock %}
 {% block jumbotron %}{% endblock %}
 
 {% block extra %}{% endblock %}
@@ -23,7 +23,7 @@
                   <tr>
                     <!-- Order Number -->
                     <td class="text-center">
-                      <a href="{% url 'my_orders' %}{{order.pk}}/">{{order.pk}}</a>
+                      <a href="{% url 'vendor_orders' %}{{order.pk}}/">{{order.pk}}</a>
                     </td>
                     <!-- Order Date -->
                     <td class="text-center">
@@ -31,7 +31,11 @@
                     </td>
                     <!--  Grand Total -->
                     <td class="text-center">
-                      <h4 class="total-price">$ {{order.total_price}}</h4>
+                      {% for sale in order.sales %}
+                        {% if sale.vendor == request.user %}
+                        <h4 class="total-price">$ {{sale.total}}</h4>
+                        {% endif %}
+                      {% endfor %}
                     </td>
                   </tr>
                 {% endfor %}

@@ -10,29 +10,22 @@
           </button>
 
           <!-- Logo / Home button -->
-          <a class="navbar-brand" style="" href="{% url 'customer_home' %}">GoodShop</a>
+          <a class="navbar-brand" style="" href="{% url 'vendor_home' %}">GoodShop</a>
         </div>
 
         <div class="navbar-collapse collapse">
 
           <!-- Search Box -->
-          <form id="search" class="navbar-form navbar-left" action="{% url 'customer_home' %}search/">
+          <!--<form id="search" class="navbar-form navbar-left" action="{% url 'vendor_home' %}search/">
             <div class="form-group">
               <input id="search-box" type="text" class="form-control" placeholder="Search">
             </div>
             <button id="search-btn" type="submit" class="btn btn-default">Search</button>
-          </form>
-
+          </form>-->
+          <a href="{% url 'my_products' %}">
+            <button  type="button" class="btn btn-success btn-sm btn-navbar">My Products</button>
+          </a>
           <ul class="nav navbar-nav navbar-right">
-
-            <!--  Shopping Cart Button  -->
-            <li>
-              <a href="{% url 'shopping_cart' %}">
-                <button class="btn btn-xs btn-warning cart-icon">
-                  Shopping Cart | <span class="glyphicon glyphicon-shopping-cart cart-icon"> </span>
-                </button>
-              </a>
-            </li>
 
             <!-- Username Dropdown -->
             <li class="dropdown">
@@ -46,7 +39,7 @@
               <ul class="dropdown-menu">
 
                 <!-- My Orders -->
-                <li><a href="{% url 'my_orders' %}">My Orders</a></li>
+                <li><a href="{% url 'vendor_orders' %}">My Orders</a></li>
                 <li class="divider"></li>
 
                 <!-- Log Out -->

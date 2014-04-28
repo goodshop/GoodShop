@@ -147,10 +147,14 @@ class Order(models.Model):
                 sales[vendor.pk].append(p_ord)
         return sales
 
-    def sales(self):
+    def sales(self, vendor=None):
         from .utils import Sale
-        sales_objs = []
         vendor_sales = self.sales_by_vendor()
+
+        if vendor:
+            return Sale(self, vendor.pk, vendor_sales[vendor.pk])
+
+        sales_objs = []
         for vendor_id in vendor_sales:
             sales_objs.append(Sale(self, vendor_id, vendor_sales[vendor_id]))
         return sales_objs
@@ -180,3 +184,9 @@ class ProductInOrder(models.Model):
     unit_price = models.DecimalField(max_digits=7, decimal_places=2)
     total_price = models.DecimalField(max_digits=7, decimal_places=2)
     quantity = models.PositiveIntegerField()
+
+
+def get_orders_for_vendor(vendor):
+    p_in_ords = ProductInOrder.objects.filter(product__vendor=vendor)
+    raw_orders = Order.objects.filter(product=p_in_ords.values('product'))
+    return raw_orders.distinct().order_by('-purchase_date')

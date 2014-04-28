@@ -6,20 +6,62 @@ from django.core.urlresolvers import reverse_lazy
 # Create your views here.
 from .forms import VendorForm
 from .models import VendorProfile
-from goodshop.models import Phone
+from goodshop.models import Phone, Order, get_orders_for_vendor
 from goodshop.utils import add_user_context
 
 def vendor_home(request):
     add_user_context(request)
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/')
+        return HttpResponseRedirect(reverse_lazy('login'))
     elif request.customer:
-        return HttpResponseRedirect('/customer/')
+        return HttpResponseRedirect(reverse_lazy('customer_home'))
+    return HttpResponseRedirect(reverse_lazy('vendor_orders'))
 
-    return render_to_response("vendor/home.html",
+
+def vendor_orders(request, *args, **kwargs):
+    add_user_context(request)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse_lazy('login'))
+    elif request.customer:
+        return HttpResponseRedirect(reverse_lazy('customer_home'))
+
+    orders = get_orders_for_vendor(request.user)
+
+    return render_to_response("vendor/orders.html",
                               locals(),
                               context_instance=RequestContext(request)
                               )
+
+def vendor_order(request, *args, **kwargs):
+    add_user_context(request)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse_lazy('login'))
+    elif request.customer:
+        return HttpResponseRedirect(reverse_lazy('customer_home'))
+
+    order_id = kwargs.pop('order_id','')
+
+    if order_id:
+        try:
+            order = get_orders_for_vendor(request.user).get(pk=order_id)
+        except:
+            return HttpResponseRedirect(reverse_lazy('vendor_orders'))
+        products = order.get_order_products()
+        sale = order.sales(vendor=request.user)
+
+    return render_to_response("vendor/view_order.html",
+                             locals(),
+                             context_instance=RequestContext(request)
+                             )
+
+
+def my_products(request):
+    add_user_context(request)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse_lazy('login'))
+    elif request.customer:
+        return HttpResponseRedirect(reverse_lazy('customer_home'))
+    return HttpResponseRedirect(reverse_lazy('vendor_orders'))
 
 
 class VendorRegistration(FormView):

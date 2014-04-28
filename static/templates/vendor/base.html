@@ -17,6 +17,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{{STATIC_URL}}css/jumbotron.css" rel="stylesheet">
+    <link href="{{STATIC_URL}}css/vendor.css" rel="stylesheet">
     {% block css %}{% endblock %}
     <script id="twitter-wjs" async="" src="https://platform.twitter.com/widgets.js"></script>
     <!-- Just for debugging purposes. Don't actually copy this line! -->
@@ -31,11 +32,9 @@
 
   <body>
 
-{% include 'customer/navbar.html' %}
+{% include 'vendor/navbar.html' %}
 
-{% block jumbotron %}
-
-{% endblock %}
+{% block jumbotron %}{% endblock %}
 
     <div class="container">
 {% if messages %}

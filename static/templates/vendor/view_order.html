@@ -1,93 +1,94 @@
-{% extends 'customer/base.html' %}
-{% block scripts %}<script src="/static/js/customer.js"></script>{% endblock %}
+{% extends 'vendor/base.html' %}
+{% block scripts %}{% endblock %}
 {% block jumbotron %}{% endblock %}
 
 {% block extra %}{% endblock %}
 
-{% block title %}My Orders{% endblock %}
+{% block title %}Order #{{order.pk}} Details{% endblock %}
 
 {% block content %}
     <div class="col-md-12">
       {% if order %}
-      <div class="panel panel-success">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-sm-4">
-              <h4>Order Numer : #{{order.pk}}</h4>
+        <div class="panel panel-success">
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <h4>Order Numer : #{{order.pk}}</h4>
+              </div>
+              <div class="col-sm-3">
+                <h4>Date : {{order.get_date}}</h4>
+              </div>
+              <div class="col-sm-2">
+              </div>
+              <div class="col-sm-3">
+                  <h4 class="">Order Total: <span class="total-price">$ {{sale.total}}</span></h4>
+              </div>
             </div>
-            <div class="col-sm-3">
-              <h4>Date : {{order.get_date}}</h4>
-            </div>
-            <div class="col-sm-2">
-            </div>
-            <div class="col-sm-3">
-                <h4 class="">Order Total: <span class="total-price">$ {{order.total_price}}</span></h4>
-            </div>
-          </div>
-        </div> <!--Panel body-->
-      </div> <!--Panel Container-->
-      {% for sale in sales %}
-      <div class="well">
-        <h3>From Vendor : {{sale.vendor.first_name}} {{sale.vendor.last_name}}</h3>
-        <h4>Phone  : {{sale.vendor_phone}}</h4>
-        <h4>e-mail : {{sale.vendor_email}}</h4>
-        <div class="table-responsive">
-          <table class="table table-striped orders">
-              <thead>
-                  <tr>
-                      <th class="text-center">Product</th>
-                      <th class="text-center">Unit Price</th>
-                      <th class="text-center">Qty</th>
-                      <th class="text-center">Sub-total</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for p_ord in sale.products %}
+          </div> <!--Panel body-->
+        </div> <!--Panel Container-->
+        {% if sale.vendor == request.user %}
+        <!-- Well Container -->
+        <div class="well">
+          <h3>For Customer : {{order.customer.first_name}} {{order.customer.last_name}}</h3>
+          <h4>Phone  : {{order.get_customer_phone}}</h4>
+          <h4>e-mail : {{order.customer.email}}</h4>
+          <div class="table-responsive">
+            <table class="table table-striped orders">
+                <thead>
                     <tr>
-                      <!-- Product Info -->
-                      <td>
-                          <div class="row">
-                            <div class="col-sm-4 col-sm-offset-1 cart-thumbnail thumbnail">
-                              {% if p_ord.product.get_first_image %}
-                              <img src="{{p_ord.product.get_first_image}}" class="product-img" alt="{{p_ord.product.name}}">
-                              {% else %}
-                              <img data-src="holder.js/100%x180" class="product-img" alt="{{p_ord.product.name}}">
-                              {% endif %}
-                            </div>
-                            <div class="col-sm-7">
-                              <h4>{{p_ord.product.name}}</h3>
-                            </div>
-                          </div>
-                      </td>
-
-                      <!-- Unit Price -->
-                      <td class="text-center">
-                          <h4>${{p_ord.unit_price}}</h4>
-                      </td>
-
-                      <!--  Quantity -->
-                      <td class="text-center">
-                        <h4>{{p_ord.quantity}}</h4>
-                      </td>
-
-                      <!-- Sub-Total -->
-                      <td class="text-center">
-                          <h4 class="total-price">${{p_ord.total_price}}</h4>
-                      </td>
+                        <th class="text-center">Product</th>
+                        <th class="text-center">Unit Price</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-center">Sub-total</th>
                     </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
-        </div> <!-- Table Responsive -->
-        <div class="row">
-          <div class="col-sm-9">
+                </thead>
+                <tbody>
+                    {% for p_ord in sale.products %}
+                      <tr>
+                        <!-- Product Info -->
+                        <td>
+                            <div class="row">
+                              <div class="col-sm-4 col-sm-offset-1 cart-thumbnail thumbnail">
+                                {% if p_ord.product.get_first_image %}
+                                <img src="{{p_ord.product.get_first_image}}" class="product-img" alt="{{p_ord.product.name}}">
+                                {% else %}
+                                <img data-src="holder.js/100%x180" class="product-img" alt="{{p_ord.product.name}}">
+                                {% endif %}
+                              </div>
+                              <div class="col-sm-7">
+                                <h4>{{p_ord.product.name}}</h3>
+                              </div>
+                            </div>
+                        </td>
+
+                        <!-- Unit Price -->
+                        <td class="text-center">
+                            <h4>${{p_ord.unit_price}}</h4>
+                        </td>
+
+                        <!--  Quantity -->
+                        <td class="text-center">
+                          <h4>{{p_ord.quantity}}</h4>
+                        </td>
+
+                        <!-- Sub-Total -->
+                        <td class="text-center">
+                            <h4 class="total-price">${{p_ord.total_price}}</h4>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div> <!-- Table Responsive -->
+          <div class="row">
+            <div class="col-sm-9">
+            </div>
+            <div class="col-sm-3">
+                <h4 class="">Vendor Total : <span class="total-price">${{sale.total}}</span></h4>
+            </div>
           </div>
-          <div class="col-sm-3">
-              <h4 class="">Vendor Total : <span class="total-price">${{sale.total}}</span></h4>
-          </div>
-        </div>
-      </div> <!-- Well Container -->
-      {% endfor %}
+        </div> <!-- Well Container -->
+        {% endif %} <!--sale.vendor == request.user-->
       {% else %}
       <div class="alert alert-info"><strong>LOL!</strong> You don't have any orders yet.</div>
       {% endif %}
