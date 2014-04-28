@@ -66,3 +66,7 @@ function()
 };
 
 $(".product-qty").ForceNumericOnly();
+loading = '...'
+loading_blue = '...'
+$('.btn-cart').click(function(){ $(this).html(loading) });
+$('.btn-qty').click(function(){ $(this).html(loading) })

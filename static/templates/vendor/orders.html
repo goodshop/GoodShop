@@ -1,0 +1,45 @@
+{% extends 'customer/base.html' %}
+{% block scripts %}<script src="/static/js/customer.js"></script>{% endblock %}
+{% block jumbotron %}{% endblock %}
+
+{% block extra %}{% endblock %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+    <div class="col-md-12">
+      {% if orders %}
+      <div class="table-responsive">
+        <table class="table table-striped orders">
+            <thead>
+                <tr>
+                    <th class="text-center">Order Number</th>
+                    <th class="text-center">Order Date</th>
+                    <th class="text-center">Grand Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                  <tr>
+                    <!-- Order Number -->
+                    <td class="text-center">
+                      <a href="{% url 'my_orders' %}{{order.pk}}/">{{order.pk}}</a>
+                    </td>
+                    <!-- Order Date -->
+                    <td class="text-center">
+                      {{order.get_date}}
+                    </td>
+                    <!--  Grand Total -->
+                    <td class="text-center">
+                      <h4 class="total-price">$ {{order.total_price}}</h4>
+                    </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+      </div> <!--Table Responsive-->
+      {% else %}
+      <div class="alert alert-info"><strong>LOL!</strong> You don't have any orders yet.</div>
+      {% endif %}
+    </div>
+{% endblock %}

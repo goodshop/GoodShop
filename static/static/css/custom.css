@@ -62,3 +62,10 @@ body {
     border: 1px solid rgb(145, 48, 199);
     border-radius: 44px;
 }
+
+
+/** Inplace Edit **/
+form.inplaceeditform input[type=text] {
+    min-height: 35px;
+    color: black;
+}

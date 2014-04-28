@@ -9,6 +9,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^', include('goodshop.urls')),
+    (r'^inplaceeditform/', include('inplaceeditform.urls')),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )

@@ -1,7 +1,5 @@
 {% extends 'customer/base.html' %}
-{% block scripts %}
-    <script src="/static/js/customer.js"></script>
-{% endblock %}
+{% block scripts %}<script src="/static/js/customer.js"></script>{% endblock %}
 {% block title %}Shopping Cart{% endblock %}
 {% block content %}
 <div class="panel panel-info">
@@ -74,7 +72,7 @@
                                    data-id="{{item.product.id}}">
                             </input>
                             <a href="{% url 'shopping_cart' %}add?sku={{item.product.id}}&qty=1"
-                               class="btn btn-sm btn-qty">
+                            class="btn btn-sm btn-qty">
                                 <span class="glyphicon glyphicon-plus btn-qty-icon"></span>
                             </a>
                         </td>

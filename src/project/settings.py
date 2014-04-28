@@ -34,7 +34,7 @@ TIME_ZONE = 'America/Mexico_City'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'es-mx'
+LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
@@ -50,6 +50,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC = '/static/'
 MEDIA_URL = '/media/'
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static-only")
@@ -69,7 +70,7 @@ TEMPLATE_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -80,6 +81,13 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.request',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.contrib.auth.context_processors.auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -108,6 +116,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'south',
     'goodshop',
+    'inplaceeditform', ## Ostras chaval si esto funciona
 )
 
 from django.core.urlresolvers import reverse_lazy
@@ -146,6 +155,26 @@ LOGGING = {
         },
     }
 }
+
+## Inplace Edit Cosntants
+
+# Permissions Adaptor
+ADAPTOR_INPLACEEDIT_EDIT = 'goodshop.perms.MyAdaptorEditInline'
+INPLACEEDIT_EDIT_EMPTY_VALUE = 'Double click to edit'
+INPLACEEDIT_AUTO_SAVE = True
+INPLACEEDIT_EVENT = "click"
+INPLACEEDIT_DISABLE_CLICK = True  # For inplace edit text into a link tag
+INPLACEEDIT_SUCCESS_TEXT = 'Successfully saved'
+INPLACEEDIT_UNSAVED_TEXT = 'You have unsaved changes'
+INPLACE_ENABLE_CLASS = 'enable'
+#INPLACEEDIT_EDIT_MESSAGE_TRANSLATION = 'Write a translation' # transmeta option
+#DEFAULT_INPLACE_EDIT_OPTIONS = {} # dictionnary of the optionals parameters that the templatetag can receive to change its behavior (see the Advanced usage section)
+#DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE = True # modify the behavior of the DEFAULT_INPLACE_EDIT_OPTIONS usage, if True then it use the default values not specified in your template, if False it uses these options only when the dictionnary is empty (when you do put any options in your template)
+#ADAPTOR_INPLACEEDIT_EDIT = 'app_name.perms.MyAdaptorEditInline' # Explain in Permission Adaptor API
+#ADAPTOR_INPLACEEDIT = {'myadaptor': 'app_name.fields.MyAdaptor'} # Explain in Adaptor API
+#INPLACE_GET_FIELD_URL = None # to change the url where django-inplaceedit use to get a field
+#INPLACE_SAVE_URL = None # to change the url where django-inplaceedit use to save a field
+
 
 ## Send Mail
 EMAIL_USE_TLS = True
