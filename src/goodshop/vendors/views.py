@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse_lazy
 # Create your views here.
 from .forms import VendorForm
 from .models import VendorProfile
-from goodshop.models import Phone, Order, get_orders_for_vendor
+from goodshop.models import Product, Phone, Order, get_orders_for_vendor
 from goodshop.utils import add_user_context
 
 def vendor_home(request):
@@ -61,7 +61,11 @@ def my_products(request):
         return HttpResponseRedirect(reverse_lazy('login'))
     elif request.customer:
         return HttpResponseRedirect(reverse_lazy('customer_home'))
-    return HttpResponseRedirect(reverse_lazy('vendor_orders'))
+    products = Product.objects.filter(vendor=request.user)
+    return render_to_response("vendor/my_products.html",
+                             locals(),
+                             context_instance=RequestContext(request)
+                             )
 
 
 class VendorRegistration(FormView):

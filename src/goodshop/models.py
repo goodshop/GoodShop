@@ -81,6 +81,12 @@ class Product(models.Model):
     stock = models.BooleanField(default=True,
                                 verbose_name="Have this product in stock")
 
+    def get_img_obj(self):
+        imgs = ProductImage.objects.filter(product=self)
+        if imgs:
+            return imgs[0]
+        return []
+
     def get_images(self):
         urls = [image.get_img_url() for image in ProductImage.objects.filter(product=self)]
         return urls

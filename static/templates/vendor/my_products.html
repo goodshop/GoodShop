@@ -1,4 +1,4 @@
-{% extends 'customer/base.html' %}
+{% extends 'vendor/base.html' %}
 {% block first %}{% load inplace_edit %}{% endblock %}
 {% block css %}{% endblock %}
 {% block scripts %}
@@ -9,11 +9,11 @@
 
 {% block extra %}{% endblock %}
 
-{% block title %}Catalog{% endblock %}
+{% block title %}My Products{% endblock %}
 
 {% block content %}
-
-    <div class="col-md-4">
+    <!--Categories-->
+<!--    <div class="col-md-4">
       <div class="panel panel-info">
         <div class="panel-heading">
           <h3 class="panel-title">Categories</h3>
@@ -29,32 +29,32 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="col-md-8">
+    </div> <!--Categories-->
+    <div class="col-md-12">
           {% if products %}
           <div class="panel panel-success">
             <div class="panel-heading">
-              <h3 class="panel-title">Products</h3>
+              <h3 class="panel-title">My Products</h3>
             </div>
             <div class="panel-body">
               <div class="list-group">
                {% for product in products %}
                  <div class="list-group-item row">
-
                   <!--Position helper-->
                   <div id="{{product.pk}}" class="position-helper"></div>
 
                   <!-- Product Image -->
-                  <div class="col-sm-3 thumbnail">
+                  <div class="col-sm-3 inplace-thumbnail inplace-img">
                     {% if product.get_first_image %}
-                    <img src="{{product.get_first_image}}" class="product-img" alt="{{product.name}}">
+                        {% inplace_edit 'product.get_img_obj.image' %}
                     {% else %}
-                    <img data-src="holder.js/100%x180" class="product-img" alt="{{product.name}}">
+                        <img data-src="holder.js/100%x180" class="product-img" alt="{{product.name}}">
                     {% endif %}
+
                   </div>
 
                   <!-- Product Name -->
-                  <div class="col-sm-5">
+                  <div class="col-sm-4">
                     <h4 title="Double click to edit">
                       {% inplace_edit 'product.name|safe' %}
                     </h4>
@@ -62,39 +62,21 @@
 
                   <!--Product Price-->
                   <div class="col-sm-2">
-                    <h4>$ {{product.price}}</h3>
+                    <h4>$ {% inplace_edit 'product.price|safe' %}</h3>
                   </div>
+                  <!--Product Category-->
                   <div class="col-sm-2">
-                    {% if not product in cart.get_products %}
-                    <a
-                       href="{% url 'shopping_cart' %}add-to-cart?sku={{product.id}}"
-                       style="margin-top: 3px;"
-                       class="btn btn-md {% if product.stock %}btn-success{% else %}btn-warning disabled{% endif %}"
-                       data-id="{{product.id}}">
-                      Add <span
-                      class="glyphicon glyphicon-shopping-cart cart-icon"></span>
-                    </a>
-                      {% if not product.stock %}
-                        <h5 class="text-center text-danger">
-                          <strong>Not in Stock</strong>
-                        </h1>
-                      {% endif %}
-                    {% else %}
-                    <a
-                       href="{% url 'shopping_cart' %}remove-from-cart?sku={{product.id}}"
-                       style="margin-top: 3px;"
-                       class="btn btn-md btn-danger"
-                       data-id="{{product.id}}">
-                        Remove <span
-                        class="glyphicon glyphicon-shopping-cart cart-icon"></span>
-                    </a>
-                    {% endif %}
+                    <h4>{% inplace_edit 'product.category' %}</h3>
                   </div>
-                 </div>
+                  <!--In Stock-->
+                  <div class="col-sm-1">
+                    <h4>{% inplace_edit 'product.stock' %}</h3>
+                  </div>
+                 </div> <!--List group row-->
                {% endfor %}
-              </div>
-            </div>
-          </div>
+              </div> <!--List Group-->
+            </div> <!--Panel body-->
+          </div> <!--Panel-->
           {% endif %}
-    </div>
+    </div> <!--Col Products-->
 {% endblock %}
