@@ -1,3 +1,25 @@
 .btn-navbar{
     margin-top: 10px;
 }
+
+.btn-add-product {
+    background-color: #F7FFED;
+    border: 1px solid #AEA !important;
+    border-radius: 15px !important;
+    font-weight: bold;
+    color: #7474DA;
+}
+
+.btn-add-product-dropdown {
+    background-color: #F7FFED;
+    border: 1px solid #AEA;
+    font-weight: bolder !important;
+    font-size: smaller !important;
+    color: #9B9BFF !important;
+}
+
+.title {
+    font-weight: bold;
+    font-family: cursive;
+    color: mediumseagreen;
+}
