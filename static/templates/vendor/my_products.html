@@ -3,34 +3,47 @@
 {% block css %}{% endblock %}
 {% block scripts %}
   <script src="{{STATIC_URL}}js/customer.js"></script>
+  <script type="text/javascript">
+      $('img').each(function(){
+            var url = $(this).attr('src');
+            if(url.substring(0,7) == '/media/'){
+                  url = 'http://goodshop.dyndns-ip.com:8000' + url;
+                  $(this).attr('src',url)
+            }
+      });
+      $('a').each(function(){
+            var url = $(this).attr('href');
+            if(url.substring(0,7) == '/media/'){
+                  url = 'http://goodshop.dyndns-ip.com:8000' + url;
+                  //$(this).attr('src',url)
+            }
+      });
+  </script>
   {% inplace_static %}
 {% endblock %}
-{% block jumbotron %}{% endblock %}
-
-{% block extra %}{% endblock %}
 
 {% block title %}My Products{% endblock %}
 
-{% block content %}
-    <!--Categories-->
-<!--    <div class="col-md-4">
-      <div class="panel panel-info">
-        <div class="panel-heading">
-          <h3 class="panel-title">Categories</h3>
-        </div>
-        <div class="panel-body">
-          <div class="list-group">
-            {% for category in categories %}
-              <a href="{% url 'customer_home' %}cat/{{category.name}}/"
-                class="list-group-item {% if actual_category == category.name %}active{% endif %}">
-                {% inplace_edit 'category.name' %} <span class="badge">{{category.get_product_count}}</span>
-              </a>
-            {% endfor %}
-          </div>
-        </div>
+{% block jumbotron %}
+  <div class="container">
+    <div class='row'>
+      <div class="col-md-12">
+          <ul class="pager">
+            <li class="next">
+                <a style="background-color: #F7FFED; border: 1px solid #AEA;" href="{% url 'add_product' %}">
+                  <span class="glyphicon glyphicon-plus" style="color: green;"></span> Add new product
+                </a>
+            </li>
+          </ul>
       </div>
-    </div> <!--Categories-->
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+
     <div class="col-md-12">
+
           {% if products %}
           <div class="panel panel-success">
             <div class="panel-heading">
@@ -42,9 +55,9 @@
                  <div class="list-group-item row">
                   <!--Position helper-->
                   <div id="{{product.pk}}" class="position-helper"></div>
-
                   <!-- Product Image -->
                   <div class="col-sm-3 inplace-thumbnail inplace-img">
+                  <h4 class="title">Image:</h4>
                     {% if product.get_first_image %}
                         {% inplace_edit 'product.get_img_obj.image' %}
                     {% else %}
@@ -52,9 +65,9 @@
                     {% endif %}
 
                   </div>
-
                   <!-- Product Name -->
                   <div class="col-sm-4">
+                  <h4 class="title">Product Name:</h4>
                     <h4 title="Double click to edit">
                       {% inplace_edit 'product.name|safe' %}
                     </h4>
@@ -62,15 +75,20 @@
 
                   <!--Product Price-->
                   <div class="col-sm-2">
-                    <h4>$ {% inplace_edit 'product.price|safe' %}</h3>
+                  <h4 class="title">Price:</h4>
+                    <h4>$ {% inplace_edit 'product.price|safe' %}</h4>
                   </div>
+
                   <!--Product Category-->
                   <div class="col-sm-2">
-                    <h4>{% inplace_edit 'product.category' %}</h3>
+                  <h4 class="title">Category:</h4>
+                    <h4>{% inplace_edit 'product.category|safe' %}</h4>
                   </div>
+
                   <!--In Stock-->
                   <div class="col-sm-1">
-                    <h4>{% inplace_edit 'product.stock' %}</h3>
+                  <h4 class="title">In Stock:</h4>
+                    <h4>{% inplace_edit 'product.stock' %}</h4>
                   </div>
                  </div> <!--List group row-->
                {% endfor %}
@@ -79,4 +97,20 @@
           </div> <!--Panel-->
           {% endif %}
     </div> <!--Col Products-->
+{% endblock %}
+
+{% block extra %}
+  <div class="container">
+    <div class='row'>
+      <div class="col-md-12">
+          <ul class="pager">
+            <li class="next">
+                <a style="background-color: #F7FFED; border: 1px solid #AEA;" href="{% url 'add_product' %}">
+                  <span class="glyphicon glyphicon-plus" style="color: green;"></span> Add new product
+                </a>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -1,3 +1,9 @@
 .btn-navbar{
     margin-top: 10px;
 }
+
+.title {
+    font-weight: bold;
+    font-family: cursive;
+    color: mediumseagreen;
+}

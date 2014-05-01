@@ -1,12 +1,15 @@
 from django.shortcuts import render_to_response, RequestContext, HttpResponseRedirect
-from django.contrib.auth import login
-from django.views.generic import FormView
 from django.core.urlresolvers import reverse_lazy
+from django.views.generic import FormView
+from django.contrib.auth import login
+from django.contrib import messages
+from django.forms import ModelForm
+from django import forms
 
 # Create your views here.
 from .forms import VendorForm
 from .models import VendorProfile
-from goodshop.models import Product, Phone, Order, get_orders_for_vendor
+from goodshop.models import Product, Phone, Order, ProductImage, get_orders_for_vendor
 from goodshop.utils import add_user_context
 
 def vendor_home(request):
@@ -63,6 +66,57 @@ def my_products(request):
         return HttpResponseRedirect(reverse_lazy('customer_home'))
     products = Product.objects.filter(vendor=request.user)
     return render_to_response("vendor/my_products.html",
+                             locals(),
+                             context_instance=RequestContext(request)
+                             )
+
+class ProductForm(ModelForm):
+    image = forms.ImageField(required=True)
+    class Meta:
+        model = Product
+        fields = ['category', 'price', 'name']
+
+#class ProductImageForm(ModelForm):
+#    class Meta:
+#        model = ProductImage
+#        fields = ['image']
+
+def add_product(request):
+    add_user_context(request)
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse_lazy('login'))
+    elif request.customer:
+        return HttpResponseRedirect(reverse_lazy('customer_home'))
+
+    # generate default form
+    product_form = ProductForm()
+    #img_form = ProductImageForm()
+    # handle add event
+    if request.method == 'POST':
+        # attempt to do add
+        add_product = ProductForm(request.POST, request.FILES)
+        #product_img = ProductImageForm(request.POST, request.FILES)
+        print 'METHOD POST!!!!!'
+        print request.POST
+        if add_product.is_valid():
+            product = add_product.save(commit=False)
+            print "Product is valid:"
+            print product
+            product.vendor = request.user
+            product.save()
+            new_img = ProductImage(product=product, image=add_product.cleaned_data['image'])
+            new_img.save()
+            message = 'New Product %s Added' % (product.name)
+            messages.success(request, message)
+
+        if not add_product.is_valid():
+            # validation failed: show submitted values in form
+            product_form = add_product
+            #img_form = product_img
+            message = 'Failure! Check the information below!'
+            messages.error(request, message)
+
+    return render_to_response("vendor/add_product.html",
                              locals(),
                              context_instance=RequestContext(request)
                              )

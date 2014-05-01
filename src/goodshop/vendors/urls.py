@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     url(r'^orders/$', 'goodshop.vendors.views.vendor_orders', name='vendor_orders'),
     url(r'^orders/(?P<order_id>[\d]+)/$', 'goodshop.vendors.views.vendor_order', name='vendor_order'),
     url(r'^my-products/$', 'goodshop.vendors.views.my_products', name='my_products'),
+    url(r'^add-product/$', 'goodshop.vendors.views.add_product', name='add_product'),
     url(r'^register/$', VendorRegistration.as_view(), name='vendor_registration'),
 )
