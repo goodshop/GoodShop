@@ -29,15 +29,6 @@
     <div class="col-md-12">
         <form  enctype="multipart/form-data" method="POST" class="text-left" role="form"> {% csrf_token %}
             {{product_form.as_p}}
-            {{img_form.as_p}}
-<!--            <label for="product_img"
-                   data-role="button"
-                   data-inline="true"
-                   data-mini="true"
-                   data-corners="false">
-                Upload
-            </label>
-            <input id="product_img" type="file" name="product_img" multiple data-role="button" data-inline="true" data-mini="true" data-corners="false" style="opacity: 0;"/>-->
             <input type="submit" class="btn btn-lg btn-default" value="Add">
         </form>
     </div> <!--Col Products-->

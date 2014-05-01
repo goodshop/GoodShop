@@ -19,6 +19,11 @@
           <a href="{% url 'my_products' %}">
             <button  type="button" class="btn btn-success btn-sm btn-navbar">My Products</button>
           </a>
+          <a  href="{% url 'add_product' %}">
+            <button  type="button" class="btn btn-default btn-sm btn-navbar btn-add-product">
+              <span class="glyphicon glyphicon-plus" style="color: green;"></span> Add new product  
+            </button>
+          </a>
           <ul class="nav navbar-nav navbar-right">
 
             <!-- Username Dropdown -->
@@ -34,6 +39,19 @@
 
                 <!-- My Orders -->
                 <li><a href="{% url 'vendor_orders' %}">My Orders</a></li>
+
+                <!-- My Products -->
+                <li><a href="{% url 'my_products' %}">My Products</a></li>
+
+                <li class="divider"></li>
+
+                <!-- Add new product -->
+                <li class="next">
+                    <a class="btn-add-product-dropdown" href="{% url 'add_product' %}">
+                      <span class="glyphicon glyphicon-plus" style="color: green;"></span> Add new product
+                    </a>
+                </li>
+
                 <li class="divider"></li>
 
                 <!-- Log Out -->
